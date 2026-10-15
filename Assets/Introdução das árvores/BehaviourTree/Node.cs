@@ -1,5 +1,5 @@
-usibg System.Collections;
-using Syestem.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Node 
