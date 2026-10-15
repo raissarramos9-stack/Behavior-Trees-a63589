@@ -10,27 +10,28 @@ public class RobberBehaviour : MonoBehaviour
     public GameObject van;
     NavMeshAgent agent;
 
-    public enum ActionState { IDLE, WORKING }
-    ActionState state = ActionState.IDLE;
-
+    Node.Status treeStatus = Node.Status.RUNNING;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         agent = this.GetComponent<NavMeshAgent>();
 
         tree = new BehaviourTree();
-        Node steal = new Node("Steal Something");
-        Node goToDiamond = new Leaf ("Go To Diamond");
-        Node goToVan = new Leaf ("Go To Van");
+        Sequence steal = new Sequence("Steal Something");
+        Leaf goToDiamond = new Leaf ("Go To Diamond", GoToDiamond);
+        Leaf goToBackDoor = new Leaf("Go To Backdoor", GoToBackDoor);
+        Leaf goToVan = new Leaf("Go To Van", GoToVan);
 
+        steal.AddChild(goToBackDoor);
         steal.AddChild(goToDiamond);
+        steal.AddChild(goToBackDoor);
         steal.AddChild(goToVan);
         tree.AddChild(steal);
 
 
         tree.PrintTree();
 
-        tree.Process();
+        
     }
 
     public Node.Status GoToDiamond()
