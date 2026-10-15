@@ -1,32 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RobberBehaviour : MonoBehaviour
 {
     BehaviourTree tree;
+    public GameObject diamond;
+    public GameObject van;
+    NavMeshAgent agent;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        agent = this.GetComponent<NavMeshAgent>();
+
         tree = new BehaviourTree();
         Node steal = new Node("Steal Something");
-        Node goToDiamond = new Node ("Go To Diamond");
-        Node goToVan = new Node ("Go To Van");
+        Node goToDiamond = new Leaf ("Go To Diamond");
+        Node goToVan = new Leaf ("Go To Van");
 
         steal.AddChild(goToDiamond);
         steal.AddChild(goToVan);
         tree.AddChild(steal);
 
-        Node eat = new Node("Eat Something");
-        Node pizza = new Node("Go To Pizza Shop");
-        Node buy = new Node("Buy Pizza");
-
-        eat.AddChild(pizza);
-        eat.AddChild(buy);
-        tree.AddChild(eat);
 
         tree.PrintTree();
+
+        agent.SetDestination(diamond.transform.position);
     }
 
     // Update is called once per frame
