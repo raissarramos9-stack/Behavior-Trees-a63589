@@ -10,6 +10,9 @@ public class RobberBehaviour : MonoBehaviour
     public GameObject van;
     NavMeshAgent agent;
 
+    public enum ActionState { IDLE, WORKING }
+    ActionState state = ActionState.IDLE;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,7 +30,25 @@ public class RobberBehaviour : MonoBehaviour
 
         tree.PrintTree();
 
-        agent.SetDestination(diamond.transform.position);
+        tree.Process();
+    }
+
+    public Node.Status GoToDiamond()
+    {
+         agent.SetDestination(diamond.transform.position);
+         return Node.Status.SUCESS;
+    }
+
+    public Node.Status GoToVan()
+    {
+         agent.SetDestination(diamond.transform.position);
+         return Node.Status.SUCESS;
+    }
+
+    }
+    Node.Status GoToLocation(Vector3 destination)
+    {
+        float distanceTotarget = Vector3(destination, this.transform.position);
     }
 
     // Update is called once per frame
