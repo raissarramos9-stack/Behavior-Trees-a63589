@@ -56,4 +56,23 @@ public class RobberBehaviour : MonoBehaviour
     {
         
     }
+    
+    public void PrintTree()
+    {
+        string treePrintout = "";
+        Stack<Node> nodeStack = new Stack<Node>();
+        Node currentNode = this;
+        nodeStack.Push(currentNode);
+
+        while (nodeStack.Count != 0)
+        {
+          Node nextNode = nodeStack.Pop();
+          treePrintout += nextNode.name + "\n";
+          for(int i = nextNode.children.Count -1; i>= 0; i--)
+          {
+            nodeStack.Push(nextNode.children[i]);
+          }
+        }
+        Debug.Log(treePrintout);
+    }
 }
