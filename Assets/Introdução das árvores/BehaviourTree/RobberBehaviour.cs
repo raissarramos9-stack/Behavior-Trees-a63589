@@ -7,9 +7,13 @@ public class RobberBehaviour : MonoBehaviour
 {
     BehaviourTree tree;
     public GameObject diamond;
-    public GameObject van;
+    public GameObject backdoor;
+    public GameObject frontdoor;
     NavMeshAgent agent;
-
+    
+    public enum ActionState { IDLE, WORKING };
+    ActionState state = AcrionState.IDLE;
+    
     Node.Status treeStatus = Node.Status.RUNNING;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,10 +25,14 @@ public class RobberBehaviour : MonoBehaviour
         Leaf goToDiamond = new Leaf ("Go To Diamond", GoToDiamond);
         Leaf goToBackDoor = new Leaf("Go To Backdoor", GoToBackDoor);
         Leaf goToVan = new Leaf("Go To Van", GoToVan);
+        Selector opendoor = new Selector("Open Door");
+
+        opendoor.AddChild(goToFrontDoor);
+        opendoor.AddChild(goToBackDoor);
 
         steal.AddChild(goToBackDoor);
         steal.AddChild(goToDiamond);
-        steal.AddChild(goToBackDoor);
+        //steal.AddChild(goToBackDoor);
         steal.AddChild(goToVan);
         tree.AddChild(steal);
 
